@@ -1,7 +1,8 @@
 # from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
+from django.conf import settings
 
 from .forms import SignupForm
 
@@ -9,7 +10,8 @@ from .forms import SignupForm
 class SignupView(CreateView):
     form_class = SignupForm
     template_name = "accounts/signup.html"
-    success_url = reverse_lazy("tweets:home")
+    # success_url = reverse_lazy("tweets:home")
+    success_url = reverse_lazy(settings.LOGIN_REDIRECT_URL)
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -18,3 +20,7 @@ class SignupView(CreateView):
         user = authenticate(self.request, username=username, password=password)
         login(self.request, user)
         return response
+
+
+class UserProfileView(TemplateView):
+    template_name = "accounts/user_profile.html"
