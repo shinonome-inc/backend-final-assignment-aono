@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
 
-from .models import User
+User = get_user_model()
 
 
 class TestSignupView(TestCase):
@@ -45,7 +45,6 @@ class TestSignupView(TestCase):
 
         response = self.client.post(self.url, empty_form_data)
 
-        User = get_user_model()
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username=empty_form_data["username"]).exists())
         form = response.context["form"]
@@ -68,7 +67,6 @@ class TestSignupView(TestCase):
 
         form = response.context["form"]
 
-        User = get_user_model()
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username=invalid_data["username"]).exists())
         self.assertFalse(form.is_valid())
@@ -84,7 +82,6 @@ class TestSignupView(TestCase):
 
         response = self.client.post(self.url, invalid_data)
 
-        User = get_user_model()
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username=invalid_data["username"]).exists())
         form = response.context["form"]
@@ -101,7 +98,6 @@ class TestSignupView(TestCase):
 
         response = self.client.post(self.url, invalid_data)
 
-        User = get_user_model()
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username=invalid_data["username"]).exists())
         form = response.context["form"]
