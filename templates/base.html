@@ -12,6 +12,12 @@
       <ul>
         <li><a href="{% url 'welcome:welcome' %}">Twitter Clone</a></li>
         <li><a href="{% url 'accounts:signup' %}">Sign up</a></li>
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+        <li><a href="{% url 'accounts:user_profile' username=request.user %}">User Profile</a></li>
+        {% else %}
+        <li><a href="{% url 'accounts:login' %}">Login</a></li>
+        {% endif %}
       </ul>
     </nav>
 
